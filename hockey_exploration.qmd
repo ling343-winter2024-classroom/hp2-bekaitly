@@ -9,6 +9,7 @@ format:
 Load packages
 ```{r}
 library(ggplot2)
+library(tidyverse)
 ```
 
 
@@ -101,3 +102,22 @@ ggplot(nhl_player_births, aes(x = birth_month)) +
   labs(x = "Month", y = "Number of Births", title = "Distribution of NHL Player Birthdays by Month")
 ```
 Immediately, it is clear that there are the most births of NHL players in the first quarter of the year.
+
+## Is there any observable association between the birth date (month/year) of NHL players and their abilities?
+
+Association of height and birth month
+```{r}
+nhl_body_and_birth <- left_join(nhl_player_births, nhl_rosters, by = "player_id")
+```
+
+Association of weight and birth month
+```{r}
+ggplot(nhl_body_and_birth, aes(x = factor(birth_month), y = weight_in_pounds)) +
+  geom_boxplot() +
+  labs(x = "Birth Month", y = "Weight in pounds", title = "Height Distribution by Birth Month") 
+```
+
+This shows that players born in the first quarter of the year tend to have larger bodies because of the age cut off for Canadian hockey leagues.
+
+
+

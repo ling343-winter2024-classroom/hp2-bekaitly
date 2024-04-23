@@ -3103,9 +3103,9 @@ vertical-align: -.125em;
 <h1><code>canada_births_1991_2022.csv</code></h1>
 <table class="table">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 12%">
-<col style="width: 74%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 64%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3137,9 +3137,9 @@ vertical-align: -.125em;
 <h1><code>nhl_player_births.csv</code></h1>
 <table class="table">
 <colgroup>
-<col style="width: 17%">
-<col style="width: 8%">
-<col style="width: 73%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 63%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3202,8 +3202,8 @@ vertical-align: -.125em;
 <table class="table">
 <colgroup>
 <col style="width: 19%">
-<col style="width: 9%">
-<col style="width: 70%">
+<col style="width: 19%">
+<col style="width: 61%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3306,29 +3306,8 @@ vertical-align: -.125em;
 </tbody>
 </table>
 </section>
-<section id="nhl_teams.csv" class="level1">
-<h1><code>nhl_teams.csv</code></h1>
-<table class="table">
-<thead>
-<tr class="header">
-<th>variable</th>
-<th>class</th>
-<th>description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>team_code</td>
-<td>character</td>
-<td>unique 3-letter code for this team</td>
-</tr>
-<tr class="even">
-<td>full_name</td>
-<td>character</td>
-<td>full name of this team</td>
-</tr>
-</tbody>
-</table>
+<section id="section" class="level1">
+<h1></h1>
 <section id="investigating-the-trend-in-the-number-of-births-in-canada-from-1991-to-2022" class="level2">
 <h2 class="anchored" data-anchor-id="investigating-the-trend-in-the-number-of-births-in-canada-from-1991-to-2022">Investigating the trend in the number of births in Canada from 1991 to 2022</h2>
 <div class="cell">
@@ -3424,7 +3403,7 @@ attr(,&quot;class&quot;)
 [1] &quot;labels&quot;</code></pre>
 </div>
 </div>
-<p>We can see that Canada has the most hockey players by far, but which month has the most hockey players from every country EXCEPT for Canada? Will the trend of most hockey players being born in the first quarter of the year continue?</p>
+<p>We can see that Canada has the most hockey players by far, but which month has the most hockey players from every country except for Canada? Will the trend of most hockey players being born in the first quarter of the year continue?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>birthmonthscompared <span class="ot">&lt;-</span> <span class="fu">merge</span>(nhl_player_births, nhl_rosters, <span class="at">by =</span> <span class="st">&quot;player_id&quot;</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>

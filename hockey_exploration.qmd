@@ -1,0 +1,161 @@
+---
+title: "Hockey Exploration"
+author: "Kaitlyn Bergman"
+format:
+  html:
+    embed-resources: true
+---
+
+Load packages
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+```
+
+Loading in the data
+
+```{r}
+#install.packages("tidytuesdayR")
+
+tuesdata <- tidytuesdayR::tt_load('2024-01-09')
+
+canada_births_1991_2022 <- tuesdata$canada_births_1991_2022
+nhl_player_births <- tuesdata$nhl_player_births
+nhl_rosters <- tuesdata$nhl_rosters
+nhl_teams <- tuesdata$nhl_teams
+```
+
+This data is from jonthegeek, tracykteal, Statistics Canada, the NHL team list endpoint, and the NHL API.
+
+This data shows Canadian hockey players and can be used to test the hypothesis that hockey players are more likely to be born in the first quarter of the year.
+
+## Data Dictionary
+
+Here are the variables
+
+# `canada_births_1991_2022.csv`
+
+| variable | class   | description                                            |
+|---------------|---------------|------------------------------------------|
+| year     | integer | birth year                                             |
+| month    | integer | birth month                                            |
+| births   | integer | number of live births in Canada in that year and month |
+
+# `nhl_player_births.csv`
+
+| variable             | class     | description                                                                              |
+|---------------|---------------|------------------------------------------|
+| player_id            | double    | unique id of this player (note: 2 players are listed twice with slightly different data) |
+| first_name           | character | first name                                                                               |
+| last_name            | character | last name                                                                                |
+| birth_date           | date      | birth date                                                                               |
+| birth_city           | character | birth city                                                                               |
+| birth_country        | character | 3-letter code for the birth country                                                      |
+| birth_state_province | character | birth state or province, if applicable                                                   |
+| birth_year           | integer   | birth year                                                                               |
+| birth_month          | integer   | birth month                                                                              |
+
+# `nhl_rosters.csv`
+
+| variable              | class     | description                                                                      |
+|----------------|----------------|-----------------------------------------|
+| team_code             | character | unique 3-letter code for this team                                               |
+| season                | integer   | season, as YYYYYYYY                                                              |
+| position_type         | character | "defensemen", "forwards", or "goalies"                                           |
+| player_id             | double    | unique id of this player                                                         |
+| headshot              | character | headshot url for this player-season                                              |
+| first_name            | character | first name                                                                       |
+| last_name             | character | last name                                                                        |
+| sweater_number        | double    | sweater number                                                                   |
+| position_code         | character | position code (C = center, D = defense, G = goal, L = left wing, R = right wing) |
+| shoots_catches        | character | hand preferred by this player for shooting and catching (L, R, or NA)            |
+| height_in_inches      | integer   | height in inches at the start of this season                                     |
+| weight_in_pounds      | integer   | weight in pounds at the start of this season                                     |
+| height_in_centimeters | integer   | height in centimeters at the start of this season                                |
+| weight_in_kilograms   | integer   | weight in kilograms at the start of this season                                  |
+| birth_date            | date      | birth date                                                                       |
+| birth_city            | character | birth city                                                                       |
+| birth_country         | character | 3-letter code for the birth country                                              |
+| birth_state_province  | character | birth state or province, if applicable                                           |
+
+# 
+
+## Investigating the trend in the number of births in Canada from 1991 to 2022
+
+```{r}
+ggplot(canada_births_1991_2022, aes(x = year, y = births)) +
+  geom_line() +
+  geom_point() +
+  labs(x = "Year", y = "Number of Live Births in Canada", title = "Births in Canada from 1991 to 2022")
+```
+
+The trend shows periods of increase followed by periods of decrease in the number of live births in Canada.
+
+## Canadian hockey player birthday trends
+
+```{r}
+ggplot(nhl_player_births, aes(x = birth_month)) +
+  geom_bar() +
+  labs(x = "Month", y = "Number of Births", title = "Distribution of NHL Player Birthdays by Month")
+```
+
+Immediately, it is clear that there are the most births of NHL players in the first quarter of the year.
+
+## Is there any observable association between the birth date (month/year) of NHL players and their abilities?
+
+Association of height, weight, and birth month
+
+Height and birth month
+
+```{r}
+nhl_body_and_birth <- left_join(nhl_player_births, nhl_rosters, by = "player_id")
+
+ggplot(nhl_body_and_birth, aes(x = factor(birth_month), y = height_in_inches)) +
+  geom_boxplot() +
+  labs(x = "Birth Month", y = "Height in pounds", title = "Height Distribution by Birth Month") 
+```
+
+Weight and birth month
+
+```{r}
+ggplot(nhl_body_and_birth, aes(x = factor(birth_month), y = weight_in_pounds)) +
+  geom_boxplot() +
+  labs(x = "Birth Month", y = "Weight in pounds", title = "Weight Distribution by Birth Month") 
+```
+
+This shows that players born in the first quarter of the year tend to have larger bodies because of the age cut off for Canadian hockey leagues.
+
+## Comparing birth countries
+
+This is to investigate if Canada is the only country that has most hockey players born in the first quarter of the year.
+
+```{r}
+filtered_country_data <- nhl_player_births %>%
+  group_by(birth_country) %>%
+  summarise(freq = n()) %>%
+  filter(freq > 15)
+
+ggplot(filtered_country_data, aes(x = birth_country, y = freq)) +
+  geom_point()
+  labs(title = "Distribution of Birth Countries",
+       x = "Country",
+       y = "Frequency")
+```
+
+We can see that Canada has the most hockey players by far, but which month has the most hockey players from every country except for Canada? Will the trend of most hockey players being born in the first quarter of the year continue?
+
+```{r}
+birthmonthscompared <- merge(nhl_player_births, nhl_rosters, by = "player_id")
+
+birthmonthscompared_filtered <- birthmonthscompared |>
+  filter(birth_country.x != "CAN")
+
+ggplot(birthmonthscompared_filtered, aes(x = factor(birth_month))) +
+  geom_bar() +
+  labs(title = "Distribution of Birth Months of Not Canadian Hockey Players",
+       x = "Birth Month",
+       y = "Frequency")
+```
+
+This graph shows that even outside of Canada, the trend continues that most hockey players are born in the first quarter of the year.

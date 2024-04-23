@@ -141,11 +141,11 @@ ggplot(filtered_country_data, aes(x = birth_country, y = freq)) +
        y = "Frequency")
 ```
 
-We can see that Canada has the most hockey players by far, but which month has the most hockey players from every country EXCEPT for Canada? Will the trend of most hockey players being born in the first quarter of the year continue?
+We can see that Canada has the most hockey players by far, but which month has the most hockey players from every country except for Canada? Will the trend of most hockey players being born in the first quarter of the year continue?
 ```{r}
 birthmonthscompared <- merge(nhl_player_births, nhl_rosters, by = "player_id")
 
-birthmonthscompared_filtered <- birthmonthscompared %>%
+birthmonthscompared_filtered <- birthmonthscompared |>
   filter(birth_country.x != "CAN")
 
 ggplot(birthmonthscompared_filtered, aes(x = factor(birth_month))) +

@@ -6,12 +6,23 @@ format:
     embed-resources: true
 ---
 
+Load packages
+```{r}
+library(ggplot2)
+```
+
+
 Loading in the data
 
 ```{r}
 #install.packages("tidytuesdayR")
 
 tuesdata <- tidytuesdayR::tt_load('2024-01-09')
+
+canada_births_1991_2022 <- tuesdata$canada_births_1991_2022
+nhl_player_births <- tuesdata$nhl_player_births
+nhl_rosters <- tuesdata$nhl_rosters
+nhl_teams <- tuesdata$nhl_teams
 ```
 
 This data is from jonthegeek, tracykteal, Statistics Canada, the NHL team list endpoint, and the NHL API.
@@ -74,4 +85,19 @@ Here are the variables
 | team_code | character | unique 3-letter code for this team |
 | full_name | character | full name of this team             |
 
+## Investigating the trend in the number of births in Canada from 1991 to 2022
+```{r}
+ggplot(canada_births_1991_2022, aes(x = year, y = births)) +
+  geom_line() +
+  geom_point() +
+  labs(x = "Year", y = "Number of Live Births in Canada", title = "Births in Canada from 1991 to 2022")
+```
+The trend shows periods of increase followed by periods of decrease in the number of live births in Canada.
 
+## Canadian hockey player birthday trends
+```{r}
+ggplot(nhl_player_births, aes(x = birth_month)) +
+  geom_bar() +
+  labs(x = "Month", y = "Number of Births", title = "Distribution of NHL Player Birthdays by Month")
+```
+Immediately, it is clear that there are the most births of NHL players in the first quarter of the year.

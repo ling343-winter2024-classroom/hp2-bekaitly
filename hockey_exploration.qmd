@@ -1,0 +1,77 @@
+---
+title: "Hockey Exploration"
+author: "Kaitlyn Bergman"
+format:
+  html:
+    embed-resources: true
+---
+
+Loading in the data
+
+```{r}
+#install.packages("tidytuesdayR")
+
+tuesdata <- tidytuesdayR::tt_load('2024-01-09')
+```
+
+This data is from jonthegeek, tracykteal, Statistics Canada, the NHL team list endpoint, and the NHL API.
+
+This data shows Canadian hockey players and can be used to test the hypothesis that hockey players are more likely to be born in the first quarter of the year.
+
+## Data Dictionary
+
+Here are the variables
+
+# `canada_births_1991_2022.csv`
+
+| variable | class   | description                                            |
+|----------|---------|--------------------------------------------------------|
+| year     | integer | birth year                                             |
+| month    | integer | birth month                                            |
+| births   | integer | number of live births in Canada in that year and month |
+
+# `nhl_player_births.csv`
+
+| variable             | class     | description                                                                              |
+|----------------------|-----------|------------------------------------------------------------------------------------------|
+| player_id            | double    | unique id of this player (note: 2 players are listed twice with slightly different data) |
+| first_name           | character | first name                                                                               |
+| last_name            | character | last name                                                                                |
+| birth_date           | date      | birth date                                                                               |
+| birth_city           | character | birth city                                                                               |
+| birth_country        | character | 3-letter code for the birth country                                                      |
+| birth_state_province | character | birth state or province, if applicable                                                   |
+| birth_year           | integer   | birth year                                                                               |
+| birth_month          | integer   | birth month                                                                              |
+
+# `nhl_rosters.csv`
+
+| variable              | class     | description                                                                      |
+|-----------------------|-----------|----------------------------------------------------------------------------------|
+| team_code             | character | unique 3-letter code for this team                                               |
+| season                | integer   | season, as YYYYYYYY                                                              |
+| position_type         | character | "defensemen", "forwards", or "goalies"                                           |
+| player_id             | double    | unique id of this player                                                         |
+| headshot              | character | headshot url for this player-season                                              |
+| first_name            | character | first name                                                                       |
+| last_name             | character | last name                                                                        |
+| sweater_number        | double    | sweater number                                                                   |
+| position_code         | character | position code (C = center, D = defense, G = goal, L = left wing, R = right wing) |
+| shoots_catches        | character | hand preferred by this player for shooting and catching (L, R, or NA)            |
+| height_in_inches      | integer   | height in inches at the start of this season                                     |
+| weight_in_pounds      | integer   | weight in pounds at the start of this season                                     |
+| height_in_centimeters | integer   | height in centimeters at the start of this season                                |
+| weight_in_kilograms   | integer   | weight in kilograms at the start of this season                                  |
+| birth_date            | date      | birth date                                                                       |
+| birth_city            | character | birth city                                                                       |
+| birth_country         | character | 3-letter code for the birth country                                              |
+| birth_state_province  | character | birth state or province, if applicable                                           |
+
+# `nhl_teams.csv`
+
+| variable  | class     | description                        |
+|-----------|-----------|------------------------------------|
+| team_code | character | unique 3-letter code for this team |
+| full_name | character | full name of this team             |
+
+

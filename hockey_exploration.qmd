@@ -105,19 +105,53 @@ Immediately, it is clear that there are the most births of NHL players in the fi
 
 ## Is there any observable association between the birth date (month/year) of NHL players and their abilities?
 
-Association of height and birth month
+Association of height, weight, and birth month
+
+Height and birth month
 ```{r}
 nhl_body_and_birth <- left_join(nhl_player_births, nhl_rosters, by = "player_id")
+
+ggplot(nhl_body_and_birth, aes(x = factor(birth_month), y = height_in_inches)) +
+  geom_boxplot() +
+  labs(x = "Birth Month", y = "Height in pounds", title = "Height Distribution by Birth Month") 
 ```
 
-Association of weight and birth month
+Weight and birth month
 ```{r}
 ggplot(nhl_body_and_birth, aes(x = factor(birth_month), y = weight_in_pounds)) +
   geom_boxplot() +
-  labs(x = "Birth Month", y = "Weight in pounds", title = "Height Distribution by Birth Month") 
+  labs(x = "Birth Month", y = "Weight in pounds", title = "Weight Distribution by Birth Month") 
 ```
 
 This shows that players born in the first quarter of the year tend to have larger bodies because of the age cut off for Canadian hockey leagues.
 
+## Comparing birth countries
 
+This is to investigate if Canada is the only country that has most hockey players born in the first quarter of the year.
+```{r}
+filtered_country_data <- nhl_player_births %>%
+  group_by(birth_country) %>%
+  summarise(freq = n()) %>%
+  filter(freq > 15)
 
+ggplot(filtered_country_data, aes(x = birth_country, y = freq)) +
+  geom_point()
+  labs(title = "Distribution of Birth Countries",
+       x = "Country",
+       y = "Frequency")
+```
+
+We can see that Canada has the most hockey players by far, but which month has the most hockey players from every country EXCEPT for Canada? Will the trend of most hockey players being born in the first quarter of the year continue?
+```{r}
+birthmonthscompared <- merge(nhl_player_births, nhl_rosters, by = "player_id")
+
+birthmonthscompared_filtered <- birthmonthscompared %>%
+  filter(birth_country.x != "CAN")
+
+ggplot(birthmonthscompared_filtered, aes(x = factor(birth_month))) +
+  geom_bar() +
+  labs(title = "Distribution of Birth Months of Not Canadian Hockey Players",
+       x = "Birth Month",
+       y = "Frequency")
+```
+This graph shows that even outside of Canada, the trend continues that most hockey players are born in the first quarter of the year.

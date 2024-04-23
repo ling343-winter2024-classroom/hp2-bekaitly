@@ -37,7 +37,7 @@ Here are the variables
 # `canada_births_1991_2022.csv`
 
 | variable | class   | description                                            |
-|-------------|-------------|-----------------------------------------------|
+|---------------|---------------|------------------------------------------|
 | year     | integer | birth year                                             |
 | month    | integer | birth month                                            |
 | births   | integer | number of live births in Canada in that year and month |
@@ -45,7 +45,7 @@ Here are the variables
 # `nhl_player_births.csv`
 
 | variable             | class     | description                                                                              |
-|-------------|-------------|----------------------------------------------|
+|---------------|---------------|------------------------------------------|
 | player_id            | double    | unique id of this player (note: 2 players are listed twice with slightly different data) |
 | first_name           | character | first name                                                                               |
 | last_name            | character | last name                                                                                |
@@ -59,7 +59,7 @@ Here are the variables
 # `nhl_rosters.csv`
 
 | variable              | class     | description                                                                      |
-|--------------|--------------|---------------------------------------------|
+|----------------|----------------|-----------------------------------------|
 | team_code             | character | unique 3-letter code for this team                                               |
 | season                | integer   | season, as YYYYYYYY                                                              |
 | position_type         | character | "defensemen", "forwards", or "goalies"                                           |
